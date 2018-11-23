@@ -1,0 +1,25 @@
+#####################################
+##  Keywords for the gLed library  ##
+#####################################
+
+############ Datatypes ##############
+gLed	KEYWORD1
+
+####### Methods and functions #######
+	
+begin			KEYWORD2
+beginLeds		KETWORD2
+update			KEYWORD2
+updateLeds		KEYWORD2 
+ledOn			KEYWORD2
+ledOff			KEYWORD2
+fadeIn			KEYWORD2
+fadeOut			KEYWORD2
+blink			KEYWORD2
+blinkFade		KEYWORD2
+multiBlink		KEYWORD2
+multiBlinkFade	KEYWORD2
+pulse			KEYWORD2
+pulseFade		KEYWORD2
+multiPulse		KEYWORD2
+multiPulseFade	KEYWORD2
