@@ -1,16 +1,32 @@
 #include <SoftwareSerial.h>
 #include <gMatrix.h>
+#include "Mouse.h"
 
 SoftwareSerial BTserial(10,11);
 
 float raw[6];         //Vector de información raw, recibido desde Master
-float coord[2];       //Vector de información con coordenadas en pantalla, tras procesar raw
-int D=10;             //Distancia de la pantalla virtual
+float coord[2],coord_bak[2];       //Vector de información con coordenadas en pantalla, tras procesar raw
+int D=100;             //Distancia de la pantalla virtual, cm
+int DPC=4;            // Pixeles por cm
 
 void setup() {
+  Serial.begin(9600);
+  BTserial.begin(38400); 
+
+  coord_bak[0]=0; coord_bak[1]=0;
+
+  Mouse.begin();
 }
 
 void loop() {
+  RawData(raw);
+  Intersect(raw,coord);
+
+  Mouse.move(coord[0]-coord_bak[0],coord[1]-coord_bak[1],0);
+
+  coord_bak[0]=coord[0];
+  coord_bak[1]=coord[1];
+  
 }
 
 void RawData(float raw[]){
@@ -23,7 +39,7 @@ void RawData(float raw[]){
   int a,b,c,d,e;      //Enteros auxiliares
   String data;        //Cadena de datos que guardará la información procesada
 
-  delay(100);         //Un retraso de tiempo entre lectura y proceso
+  delay(50);         //Un retraso de tiempo entre lectura y proceso
 
   //El siguiente condicional lee la información sí existe un dispositivo BTserial
   //Concatena la cadena aux en data hasta que el delimitador "$" aparece
@@ -36,6 +52,8 @@ void RawData(float raw[]){
       }
     }
   }
+
+  //Serial.println(data);
 
   //De la cadena data extrae la información hasta que el delimitador indicado aparesca
   //!!Revisar la documentación https://www.arduino.cc/reference/en/language/variables/data-types/string/functions/indexof/ !!
@@ -54,17 +72,17 @@ void RawData(float raw[]){
   raw[5]=data.substring(e+1,data.length()-1).toFloat();
 
   //Auxilio de impresión en serial, para verificar la integridad de raw
-  Serial.print(raw[0]);
-  Serial.print(",");
-  Serial.print(raw[1]);
-  Serial.print(",");
-  Serial.print(raw[2]);
-  Serial.print(";");
-  Serial.print(raw[3]);
-  Serial.print(",");
-  Serial.print(raw[4]);
-  Serial.print(",");
-  Serial.print(raw[5]);
+//  Serial.print(raw[0]);
+//  Serial.print("\t");
+//  Serial.print(raw[1]);
+//  Serial.print("\t");
+//  Serial.print(raw[2]);
+//  Serial.print("\t\t");
+//  Serial.print(raw[3]);
+//  Serial.print("\t");
+//  Serial.print(raw[4]);
+//  Serial.print("\t");
+//  Serial.println(raw[5]);
   
 }
 
@@ -73,11 +91,11 @@ void Intersect(float raw[],float coord[]){
   La función Intersect permite calcular un rayo que intersecta con una pantalla virtual
   en forma de una coordenada.
 */
-  gMatrix Rx(3,3),Ry(3,3),Rz(3,3);                            //Matrices de rotación
-  gMatrix Gam(3,3),GamDag(3,3),Tvec(1,3);                     //Matrices Gama, Gama Daga y vector T para calcular Gama Daga
-  gMatrix GamDagx(3,1),GamDagy(3,1);                          //Componentes Gama Daga X y Y
-  gMatrix Pauli(2,2),Tau(1,2),prm(1,2),TauDag(2,1);           //Matriz de traslación (Pauli), vetor Tau, de parámetros alfa y beta y Tau Daga 
+  gMatrix Rx(3,3),Ry(3,3),Rz(3,3),Rt(3,3);                    //Matrices de rotación y su multiplicación final
+  gMatrix Gam(3),GamDag(3),Tvec(3);                           //Matrices Gama, Gama Daga y vector T para calcular Gama Daga
+  gMatrix Pauli(2,2),Tau(2),prm(2),TauDag(2);           //Matriz de traslación (Pauli), vetor Tau, de parámetros alfa y beta y Tau Daga 
   float T,alpha,betha;                                        //Numero T calculado a partir de Gamma Daga Z y parámetros alfa y beta
+  
 
   //Matrices de rotación, con los angulos existentes en raw
   Rx(0,0)=1;  Rx(0,1)=0;            Rx(0,2)=0;
@@ -93,26 +111,29 @@ void Intersect(float raw[],float coord[]){
   Rz(2,0)=0;            Rz(2,1)=0;            Rz(2,2)=1;
 
   //Calcula Gama con las matrices de rotación
-  Gam=Rz*(Ry*Rx);
-  //Calcula el valor de T
-  T=(D-(Gam(2,0)*raw[0])-(Gam(2,1)*raw[1])-(Gam(2,2)*raw[2]))/Gam(2,1);
-  //Vector T, T más los componentes X,Y,Z en raw
-  Tvec(0,0)=raw[0]; Tvec(1,0)=(T+raw[1]); Tvec(2,0)=raw[2];
-  //Calcula Gama Daga a partir de Gama y Vector T
-  GamDag=Gam*Tvec;
-  //Extrae las componentes X y Y de Gama y las guarda en Gama Daga X y Y respectivamente
-  GamDagx(0,0)=GamDag(0,0);  GamDagx(0,1)=GamDag(0,1);  GamDagx=GamDag(0,2);
-  GamDagy(0,0)=GamDag(0,0);  GamDagy(0,1)=GamDag(0,1);  GamDagy=GamDag(0,2);
+  Rt=Rz*(Ry*Rx);
+  //Calcula el valor de T, y las componentes de Tau
+  T=(D-(Rt(1,0)*raw[0])-(Rt(1,1)*raw[1])-(Rt(1,2)*raw[2]))/Rt(1,1);
+  Tau(0)=Rt(0,0)*raw[0]+Rt(0,1)*(T+raw[1])+Rt(0,2)*raw[2];
+  Tau(1)=Rt(2,0)*raw[0]+Rt(2,1)*(T+raw[1])+Rt(2,2)*raw[2];
+//  Serial.print(Tau(0));
+//  Serial.print("\t");
+//  Serial.println(Tau(1));
+  //Serial.println(Rt(1,1));
   //Calcula los parámetros alfa, para una pantalla de 1366x768 pixeles, con 38x38 ppc (96x96 ppp)
   //!!Revisar advertencia de integer overflow!!
-  alpha=(1366*38)-(1366/2); betha=(768*38)-(768/2);
-  prm(0,0)=alpha; prm(0,1)=betha;
+  alpha=(1366/2); betha=(768/2);
+  prm(0)=alpha; prm(1)=betha;
   //Hace la matriz de traslación, posiciona el origen en la esquina superior de la pantalla
   Pauli(0,0)=1; Pauli(0,1)=0;
   Pauli(1,0)=0; Pauli(1,1)=-1;
-  //Tau Daga, Tau con la traslación y coordenadas útiles.
-  TauDag=Pauli*Tau+prm;
-  //Vector de coordenadas, para posicionar el puntero en pantalla.
-  coord[0]=TauDag(0,0); coord[1]=TauDag(1,0);
+  //Calcula TauDag
+  TauDag=(DPC*Pauli*Tau)+prm;
+  //Coordenadas finales
+  coord[0]=TauDag(0); coord[1]=TauDag(1);
+
+  Serial.print(coord[0]);
+  Serial.print("\t");
+  Serial.println(coord[1]);
   
 }

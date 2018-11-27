@@ -1,0 +1,244 @@
+% Cabecera de documento
+\documentclass[11pt,letterpaper]{article} 	% Tipo de documento
+\usepackage[utf8]{inputenc}					% Codificación de la entrada
+\usepackage[spanish,es-tabla]{babel}			% Idioma
+\usepackage[T1]{fontenc}						% Codificación de la fuente
+\usepackage{helvet}							% Tipo de fuente
+\renewcommand{\familydefault}{\sfdefault}	% Asigna la fuente definida arriba
+\usepackage{vmargin}							% Permite definir los margenes
+\setmargins{2.5cm}       						% margen izquierdo
+		   {1.5cm}                        		% margen superior
+		   {16.5cm}                      		% anchura del texto
+		   {23.42cm}                    			% altura del texto
+		   {10pt}                           		% altura de los encabezados
+		   {1cm}                           		% espacio entre el texto y los encabezados
+		   {0pt}                             	% altura del pie de página
+		   {1.5cm}                           	% espacio entre el texto y el pie de página
+\usepackage{blindtext}						% Texto dummy, Lorem Ipsum
+\usepackage{titlesec}						% Paquete para diseñar los títulos
+\titlespacing*{\section}						% Especifica el diseño de los títulos, especificamente \section
+		   {0em}									% Distancia respecto al margen izquierdo
+		   {0em}									% Distancia respecto a lo que este antes del titulo
+		   {0em}									% Distancia respecto a lo que esta después del título
+\linespread{1.5}								% Interlineado
+\setlength{\parskip}{0em}					% Interlineado entre parrafos
+\usepackage{multicol}						% Paquete de multicolumna en modo ambiente
+
+\usepackage{amsmath,times} 					% Paquete de escritura matematica
+\usepackage{amsfonts} 						% Paquete de extensión para fuentes de escritura matematica
+\usepackage{amssymb} 						% Paquete para fuente de símbolos AMS
+\usepackage{amsthm}							% Paquete para entornos de teorema
+
+\usepackage{graphicx}			 			% Paquete para soporte gráfico
+%\usepackage{subfigure}						% Paquete para subifugras
+\usepackage{float}							% Paquete para entornos tipo float
+%\usepackage{caption}						% Paquete para pie de fotos, tablas, entornos tipo float
+\usepackage[font=small]{caption}				% Paquete para pie de fotos, tablas, entornos tipo float, con argumentos
+\usepackage{subcaption}						% Paquete para pie de entornos float cuando coexisten en un solo entorno
+\usepackage{wrapfig}							% Paquete para permitir que el texto rodeé imagenes y tablas
+
+\usepackage{hyperref}						% Paquete para URLs.
+\usepackage{verbatim} 						% Paquete para comentarios y citas
+\usepackage{fancyvrb}						% Paquete para comentarios y citas más elaborados
+\usepackage{xcolor}							% Paquete para color
+\usepackage[bottom]{footmisc}				% Paquete para notas al pie de página
+\usepackage{tabularx}						% Paquete avanzado para ambiente tabular
+\usepackage{adjustbox}						% Paquete para ajustar ambientes a margenes de página
+\usepackage{listings}						% Paquete para entornos de código fuente
+\renewcommand{\lstlistingname}{Código fuente}% Definición para entorno de código fuente
+\lstset{
+	basicstyle=\ttfamily \small,					% Fuente en el código
+    frame=tb, 									% Lineas de bloque
+    tabsize=4, 									% Espacio del tabulador
+    showstringspaces=false, 						% Sin espacios en cadenas
+    numbers=left, 								% Números al margen izquierdo
+    commentstyle=\color{gray}, 					% Color de comentario
+    keywordstyle=\color{blue}, 					% Color de palabra reservada
+    stringstyle=\color{red} 						% Color de cadena
+}
+
+
+\newcommand*\justify{						% Para entornos verbatim, esta orden colocada antecediendo al texto permite justificar el contenido
+  \fontdimen2\font=0.4em							% interword space
+  \fontdimen3\font=0.2em							% interword stretch
+  \fontdimen4\font=0.1em							% interword shrink
+  \fontdimen7\font=0.1em							% extra space
+  \hyphenchar\font=`\-							% allowing hyphenation
+}
+
+% Macro para una fotografía
+
+% Información del documento
+\newcommand{\autor}{Jairo Alejandro Navarro Serrano}
+\newcommand{\codigo}{217294601}
+\newcommand{\institucion}{CU de CS Exactas e Ingenierías, Universidad de Guadalajara}
+\newcommand{\carrera}{Ingeniería Informática}
+\newcommand{\materia}{I5908-D06: Administración de Servidores}
+\newcommand{\fecha}{\today}
+\newcommand{\titulo}{Unidad 3\\Administración del Sistema Operativo}
+
+%-------------AQUI INICIA EL DOCUMENTO-------------%
+\begin{document}
+
+%Página de portada
+\begin{titlepage}
+    \begin{center}
+        {\Huge  \titulo} 		\\[4cm]
+        {\large \autor} 			\\
+        {\large \institucion} 	\\
+        {\large \carrera} 		\\
+        {\large \materia} 		\\
+        {\large \fecha} 			\\
+        \vfill
+    \end{center}
+    
+\begin{center}\rule{0.9\textwidth}{0.1mm} \end{center}
+\begin{abstract}
+%\blindtext \\
+Se hace una revisión sobre las características de Linux, su composición, elementos internos y mantenimiento de este. No se profundiza demasiado en detallar comandos o software en particular, sino de dar señas generales del sistema.
+%{\bf Palabras Clave: } %añade las palabras clave.
+\end{abstract}    
+\begin{center}\rule{0.9\textwidth}{0.1mm} \end{center}
+\end{titlepage}
+
+%Aquí inicia el documento
+%\blinddocument
+\section*{Introducción al entorno de Linux}
+\begin{wrapfigure}{r}{0.35\textwidth}
+  \vspace{-20pt}
+  \begin{center}
+    \includegraphics[scale=0.6]{./pics/tux.png}
+  \end{center}
+  \vspace{-20pt}
+  \caption{\textit{Tux}, mascota de Linux.}
+  \vspace{-10pt}
+\end{wrapfigure}
+Linux puede referirse a dos cosas: Linux como núcleo, el kernel del sistema, y GNU/Linux que son la familia de sistemas operativos basados en UNIX que son multiplataforma, multiusuario y multitarea, que está construido alrededor del núcleo Linux con apoyo del proyecto GNU. De forma errónea y coloquial \textit{Linux} hace referencia a la familia de SO antes que al kernel. Los sistemas GNU/Linux vienen empaquetados en forma de Distribuciones, o \textit{distro} (\textit{distros} en plural), para uso de escritorio y servidor. El primer núcleo Linux fue lanzado el 17 de septiembre de 1991 por el ingeniero de software finlandés Linus Torvalds, lanzado en código abierto y hasta la fecha se ha mantenido así. Originalmente fue hecho para computadoras con arquitectura Intel x86, pero se ha extendido a una multitud de dominios posibles más allá de la computadora personal, incluyendo dispositivos como tablets y smartphones (representados principalmente con Android, que funciona con el kernel Linux) y abarcando casi la totalidad de los servidores y equipos de supercomputo.
+
+
+\section*{Esquema de sistema}
+Linux es un sistema monolítico, su kernel se encarga del control de los procesos y el acceso al hardware. Los drivers del sistema y sus servicios se encuentran directamente en el kernel o son integrados en este durante su ejecución\footnote{Esto haría pensar que el kernel Linux es híbrido, pero no es así porque no es un microkernel: solo es modular con funcionamiento monolítico.}. El sistema funciona con una implementación de librerías en C que son las que se encargan del llamado de tareas dentro del sistema. La colección GNU Toolchain y Coreutils es una parte esencial del kernel pues contiene los programas necesarios para que el kernel se compile a sí mismo, además de funcionar como compiladores para programación del software en el propio sistema. De manera básica el sistema provee un entorno de terminal para trabajo en este, usando el lenguaje Bash se trata de una de las características más famosas de Linux. Sobre este corre el entorno gráfico, el cuál se compone de una colección bastante nutrida por diferentes proyectos, el cuál se basa en el sistema de ventanas X11 o, recientemente, en Wayland.
+El esquema del sistema Linux se explica en la siguiente tabla:
+\begin{table}[H]
+\caption{Capas del sistema Linux}
+\begin{center}
+\begin{adjustbox}{width=1\textwidth}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\multicolumn{ 1}{|c|}{Modo de usuario} & Aplicaciones  de usuario & \multicolumn{ 4}{c|}{por ejemplo bash, Libreoffice, Firefox, etc.} \\ \cline{ 2- 6}
+\multicolumn{ 1}{|c|}{} & Componentes de bajo nivel & Demonios del sistema: & Sistema de ventanas & Otras librerias & Controladores gráficos \\ \cline{ 2- 6}
+\multicolumn{ 1}{|c|}{} & Librería estándar de C & \multicolumn{ 4}{c|}{glibc, uClibc, bionic, etc} \\ \hline
+\multicolumn{ 1}{|c|}{Modo de Kernel} & \multicolumn{ 1}{c|}{Kernel Linux} & \multicolumn{ 4}{c|}{SCI, System Call Interface.} \\ \cline{ 3- 6}
+\multicolumn{ 1}{|c|}{} & \multicolumn{ 1}{c|}{} & Despachador de procesos & Susbistema IPC y de Red & Gestión de memoria & Gestión de sistema de archivos \\ \cline{ 3- 6}
+\multicolumn{ 1}{|c|}{} & \multicolumn{ 1}{c|}{} & \multicolumn{ 4}{c|}{Otros componentes} \\ \hline
+\multicolumn{ 6}{|c|}{Hardware} \\ \hline
+\end{tabular}
+\end{adjustbox}
+\end{center}
+\end{table}
+
+
+Entre los componentes instalados en un sistema Linux se encuentran:
+\begin{itemize}
+	\item \textbf{Bootloader}: como GRUB o LILO, se encarga de cargar el kernel Linux en memoria.
+	\item \textbf{init}: el primer programa en ser ejecutado y es la raíz de todos los procesos.
+	\item \textbf{Librerías}: contienen el código usado en los procesos del sistema, como la librería estándar de C o los controladores Mesa.
+	\item \textbf{coreutils}: herramientas básicas del sistema.
+	\item \textbf{Widthet Toolkits}: se encargan de construir el entorno gráfico.
+	\item \textbf{Gestión de paquetes}: se encarga de administrar el software instalado en el sistema, como dpkg, rpm o fuentes binarias tarball.
+	\item \textbf{Interfaz}: la interfaz del sistema.
+\end{itemize}
+
+\section*{Administración de archivos}
+El sistema de archivos es el método en el cuál el sistema da seguimiento y mantenimiento a la información contenida en el disco o medio de almacenamiento. Linux soporta de forma nativa formatos como ext2, ext3 y ext4, además de usar una partición especial denóminada swap que auxilia a la memoria RAM durante el funcionamiento del sistema. El último sistema de archivos en ser desarrollado para Linux es ReiserFS y Btrfs. Además tiene soporte para los formatos FAT16, FAT32 y NTFS de Microsoft.\par
+
+El sistema Linux organiza la información de tal manera que casi todo es un archivo, sino podría ser alguno de los siguientes elementos:
+\begin{itemize}
+	\item \textbf{Directorios}: archivos que son listas de archivos.
+	\item \textbf{Archivos especiales}: mecanismos usados para entrada y salida.
+	\item \textbf{Enlaces}: un mecanismo para hacer que un directorio sea visible desde otras partes del sistema.
+	\item \textbf{Sockets}: un archivo especial de redes, similar a los del protocolo TCP/IP.
+	\item \textbf{Pipes}: como los sockets, pero de procesos.
+\end{itemize}\par
+El sistema Linux se monta desde su correspondiente partición de disco, usualmente desde la raíz /, aunque instalaciones más avanzadas suelen particionar de manera múltiple el disco de tal manera que cada partición está para diferentes propósitos, como sea cache, carpeta de usuario o carpetas de sistema. El sistema de archivos de un sistema Linux se organiza en forma de árbol, de la manera que sigue:
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=1]{./pics/filesystem.png}
+  \end{center}
+  \vspace{-20pt}
+  \caption{Árbol del sistema de archivos de un sistema Linux.}
+  \vspace{-10pt}
+\end{figure}
+Cada carpeta dentro del sistema posee una función, resumida en la siguiente tabla:
+\begin{table}[H]
+\caption{Propósito de cada directorio en raiz de un sistema de archivos en Linux}
+\begin{adjustbox}{width=1\textwidth}
+\begin{tabular}{|c|l|}
+\hline
+\multicolumn{1}{|l|}{\textbf{Directorio}} & \textbf{Contenido} \\ \hline
+/bin & Programas comúnes, compartido por el sistema, administrador y usuarios. \\ \hline
+/boot & Carpeta de arranque, aquí se alojan los archivos del kernel, vmlinuz y, en algunos casos, del GRUB o LILO. \\ \hline
+/dev & Contiene referencias de todo el hardware periférico, representados con archivos de carácterisitcas especiales. \\ \hline
+/etc & Configuraciones escenciales del sistema. \\ \hline
+/home & Directorios Home de cada usuario. \\ \hline
+/initrd & Información de arranque. \\ \hline
+/lib & Librerías usadas por el sistema y el software. \\ \hline
+/lost+found & Archivos que se guardan durante fallos. \\ \hline
+/misc & Miscelanea. \\ \hline
+/mnt & Punto de montaje estándar para dispositivos removibles. \\ \hline
+/net & Punto de montaje estándar para dispositivos en red. \\ \hline
+/opt & Usualmente contiene software extra y de terceros. \\ \hline
+/proc & Un sistema virtual de archivos que contiene la información de los recursos del sistema. \\ \hline
+/root & Home de root. \\ \hline
+/sbin & Programas usados por el administrador de sistema. \\ \hline
+/tmp & Espacio temporal, se borra con cada apagado de máquina. \\ \hline
+/usr & Todo lo necesario para los programas del usuario. \\ \hline
+/var & Espacio para los archivos variables y temporales creados por el usuario, como colas de impreión, cola de correo, o archivos por ser grabados en CD. \\ \hline
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\section*{Administración de recursos y dispositivos}
+La gestión de los recursos y dispositivos ocurre dentro de la carpeta /dev, que es donde se encuentran los archivos de dispositivos. Estos archivos permiten la interacción del sistema con los dispositivos conectados. Propiamente no son los drivers de los dispositivos, sino puertas que permiten la comunicación, es decir: el servicio envía una señal al sistema operativo que a su vez abre una puerta al dispositivo solicitado que a través de los drivers en el kernel llega al periférico deseado. De igual manera el trayecto funciona inversamente: un periférico envía una señal que llega desde el hardware al kernel, que mediante los drivers se dirige a la puerta adecuada y de ahí es enviado al servicio o proceso deseado. El archivo ubicado en /etc/resolv.conf suele contener la información necesaria de los dispositivos conectados y sus drivers respectivos.
+
+\section*{Administración de usuarios y grupos}
+Linux es un sistema multiusuario, en este se pueden agregar, modificar y eliminar usuarios. Además de usuarios también existen grupos, que son una colección de usuarios con características similares.\par
+Los usuarios del sistema podrían ser humanos, que inician sesión dentro el sistema, o pueden ser usuarios de sistema, que son iniciados por este para servicios de fondo. Desde esta perspectiva no existe distinción de humano o máquina para el sistema, la distinción real está dada por los permisos que se le otorgan. La información de los usuarios se guarda en /etc/passwd, en la primera línea siempre se guarda el usuario root, que muestra la siguiente linea de información: \texttt{root:x:0:0:root:/root:/bin/bash}. Esta información de los usuarios siempre se organiza de la siguiente manera:
+\begin{center}
+	\texttt{usuario:contraseña:ID-usuario:ID-grupo:home-de-usuario:bash-de-usuario}
+\end{center}
+Los usuarios pueden ser añadidos usando la orden \texttt{useradd}, asignando contraseña con \texttt{passwd}, modifcar con \texttt{usermod} y eliminar con \texttt{userdel}.\par
+Los grupos son la colección de usuarios para el manejo más sencillo de permisos entre usuarios. La información de esto se guarda en el archivo /etc/group y la manipulación de estos son con comandos similares a los de usuario (en lugar de empezar con \texttt{user}, inicia con \texttt{group}.
+
+\section*{Seguridad, respaldo y mantenimiento}
+Parte de la seguridad de un sistema Linux parte de sus usuarios. Como se vio, alrededor de estos giran ficheros que contienen la información de los usuarios del sistema. /etc/passwd es legible por cualquier usuario, incluso de forma remota. Esta encriptado, pero no es imposible resolver la encriptación. Una parte esencial de la seguridad en Linux es el archivo shadow, que guarda la información de /etc/passwd en /etc/shadow, un archivo solo legible por root. Su análogo en grupos es /etc/gshadow. Otra línea de defensa de Linux es iptables, el Firewall por estándar dentro del kernel de Linux el cuál abre o cierra las conexiones de determinado puerto sobre determinado protocolo. Además de esto los servicios pueden ser iniciados en el sistema dentro de un esquema denominado runlevels, descrito en el archivo /etc/inittab en donde se listan los servicios y el nivel de runlevel en que se ejecutan. Existen seis niveles de runlevel, cada uno con sus propias características:
+\begin{table}[H]
+\caption{Niveles de Runlevel}
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Runlevel} & \textbf{Descripción de Runlevel} \\ \hline
+0 & Nivel en donde el sistema se apaga. \\ \hline
+1 & Solo root puede iniciar sesión,no hay servicios de red ni graficos. \\ \hline
+2 & Modo multiusuario sin servicios de red ni graficos. \\ \hline
+3 & Similar al nivel dos, pero los servicios de red son iniciados y los servicios graficos no. \\ \hline
+4 & Sin definir, se puede personalizar. \\ \hline
+5 & Modo estándar, multiusuario con servicios de red y graficos. \\ \hline
+6 & Reinicio de sistema. \\ \hline
+\end{tabular}
+\label{}
+\end{table}\par
+Entre la seguridad considerada dentro de un sistema Linux se encuentra el respaldo. En realidad esto no tiene mucha ciencia, consiste en básicamente guardar lo deseado dentro de unidades de almacenamiento de confianza. Existen diversas herramientas de software libre que permiten la generación de respaldos de archivos, carpetas e incluso del sistema de archivos completo dentro de unidades de almacenamiento o particiones dentro del disco, así como proveer herramientas de recuperación y funcionar con o sin encriptación. Algunas de estas herramientas son RSync, que funciona con servidores remotos, CloneZilla, que permite hacer imágenes del sistema o partes de este, y Mondorescue, con soporte para medios ópticos.\par
+Linux como todo sistema requiere de mantenimiento, usualmente es menos problemático existen diversas herramientas para este propósito. Muchas de estas herramientas están incluidas dentro del sistema, por ejemplo dentro del manejador de software en el cuál suelen existir comandos para limpiar cache de paquetes. fsck sirve para mantener el funcionamiento del disco duro de manera correcta, revisando las partes de este e intentando reparar y recuperar estas secciones. Usualmente un antivirus no es necesario, aunque existen antivirus que funcionan en Linux por lo general son de carácter preventivo antes que ser una línea de defensa o mantenimiento. Las actualizaciones del sistema son siempre importantes, sobretodo las de Kernel, y la actualización de los drivers también es relavante.
+
+\section*{Conclusión}
+Linux es un sistema operativo complejo, con un interesante trasfondo, pero nada imposible. Es un sistema fiable en el cual se pueden dedicar muchas actividades de computadora. El entendimiento de sus componentes tras bambalinas ayuda a comprender la magnitud de este y porque es tan apreciado. Así de esta manera se puede aprender a tener destreza sobre este sistema.
+
+\section*{Bibliografía}
+\begin{itemize}
+	\item \textit{Linux}, desde \url{https://en.wikipedia.org/wiki/Linux}
+	\item \textit{Introduction to Linux: A Hands on Guide}, desde \url{https://www.tldp.org/LDP/intro-linux/html/}
+	\item \textit{Managing devices in Linux}, desde \url{https://opensource.com/article/16/11/managing-devices-linux}
+	\item \textit{Understanding Linux Users and Groups}, desde \url{https://linuxacademy.com/howtoguides/posts/show/topic/12659-understanding-linux-users-and-groups}
+\end{itemize}
+
+\end{document}
